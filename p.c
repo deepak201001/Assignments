@@ -9,6 +9,10 @@ struct node *next;
 struct node **p, **q;
 int *visited;
 int *high_pt;
+int *parent;
+int *AP;
+int *DFN;
+int dfn;
 
 void create_head_pointers(int n)
 {
@@ -47,6 +51,9 @@ void edge(int a, int b)
 void dfs(int i)
 {
 	visited[i] = 1;
+	DFN[i] = dfn++;
+	high_pt[i] = -1;
+
 	struct node *temp;
 	temp = p[i];
 
@@ -83,8 +90,9 @@ void printdfs(int i)
 void dfs_traversal(int n)
 {
 	int i, count=0;
-	
-	for(i=0;i<n;i++)
+	dfn = 0;	
+
+	for(i=0; i<n; i++)
 	{
 		if(visited[i] == 0)
 		{
@@ -92,6 +100,7 @@ void dfs_traversal(int n)
 			count++;
 		}
 	}
+	
 	
 	printf("There are %d components of the graph. These are\n",count);
 
@@ -109,10 +118,8 @@ void dfs_traversal(int n)
 	}
 	printf("\b\b\b\n");
 	
-	for(i=0 ; i<n; i++)
-	visited[i] == 0;
-
 	
+
 }
 
 int main()
@@ -126,11 +133,19 @@ int main()
 	create_head_pointers(n);
 	
 	visited = (int *) malloc (n * sizeof(int));
-	for(i=0;i<n;i++)
-		visited[i]=0;
+	AP = (int *) malloc (n * sizeof(int));
+	DFN = (int *) malloc (n * sizeof(int));
+	high_pt = (int *) malloc (n * sizeof(int));
+	parent = (int *) malloc (n * sizeof(int));
 
-	struct
-	for(i=0;i<m;i++)
+	
+	for(i=0; i<n; i++)
+	{
+		visited[i]=0;
+		AP[i]=0;
+	}
+
+	for(i=0; i<m; i++)
 	{
 		scanf("%d%d",&a,&b);
 		edge(a,b);
